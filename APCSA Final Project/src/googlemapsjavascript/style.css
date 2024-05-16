@@ -1,0 +1,43 @@
+
+/*Editing all the elements in the <body> class */
+body {
+    color: #5bc0de;
+    font-family: "Poppins", sans-serif;
+}
+
+/*Editing all the elements in the .jumbotron class */
+.jumbotron {
+    background-color: transparent;
+    margin: 0;
+    padding: 10px;
+}
+
+/*Editing all the elements in the <h1> .jumbotron class */
+.jumbotron h1{
+    font-size: 2em;
+    font-weight: bold;
+}
+
+/*Editing all the elements in the <h1> and <p> .jumbotron class */
+.jumbotron h1, .jumbotron p {
+    text-align: center;
+}
+
+/*Editing all the elements in the <p> .jumbotron class */
+.jumbotron p {
+    font-size: 1em;
+}
+
+/* Editing all the elements in the googleMap ID */
+#googleMap {
+    width: 80%;
+    min-height: 400px;
+    margin: 20px auto;
+}
+
+/* Editing all the elements in the output ID */
+#output {
+    text-align: center;
+    font-size: 2em;
+    margin: 20px;
+}

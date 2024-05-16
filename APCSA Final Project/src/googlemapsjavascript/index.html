@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Distances btn two cities App</title>
+    <link href="bootstrap.min.css" rel="stylesheet" />
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <script src="https://kit.fontawesome.com/7b65b4146a.js" crossorigin="anonymous"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+    <link href="style.css" rel="stylesheet" />
+
+</head>
+<body>
+
+<!--Form Section-->
+<div class = "jumbotron">
+    <div class = "container-fluid">
+        <h1>Carpooling Application</h1>
+        <p>This app will help calculate your travelling distance</p>
+        <form class = "form-horizontal" >
+
+            <!--Origin Textbox-->
+            <!--Get Driver Address by Geolocation-->
+            <div class = "form-group">
+                <label for = "from" class = "col-xs-2 control-label"><i class="fa-regular fa-circle-dot" style="color: #ea1a1a;"></i></label>
+                <div class = "col-xs-4">
+                    <input type = "text" id = "Origin" placeholder = "Origin" class = "form-control">
+                </div>
+            </div>
+
+            <!--Waypoint Textbox-->
+            <!--Get Rider Address by User input-->
+            <div class = "form-group">
+                <label for = "from" class = "col-xs-2 control-label"><i class="fa-regular fa-circle-dot" style="color: #ea1a1a;"></i></label>
+                <div class = "col-xs-4">
+                    <input type="text" id="Rider" placeholder="Rider" class = "form-control">
+
+                    <div id="result"></div>
+
+                    <script>
+                        //Decalre GLOBAL variables to access in the JavaScript file
+                        var rLAT;
+                        var rLNG;
+
+                        function geocodeAddress() {
+                            var address = document.getElementById('Rider').value;
+
+                            //GET request to the Google Maps Geocoding API + Key
+                            var xhr = new XMLHttpRequest();
+                            xhr.open('GET', 'https://maps.googleapis.com/maps/api/geocode/json?address=' + encodeURIComponent(address) + '&key=AIzaSyDMMd0ZGoHD_ghFi83qyeX23SpqgjKArlo', true);
+
+                            xhr.onreadystatechange = function() {
+                                //4 checks if the request is complete and 200 means the request was successful
+                                if (xhr.readyState === 4 && xhr.status === 200) {
+                                    //Parse the JSON response and extracting the longitude and latitude coordinates
+                                    var response = JSON.parse(xhr.responseText);
+                                    var result = document.getElementById('result');
+                                    if (response.status === 'OK' && response.results.length > 0) {
+                                        var location = response.results[0].geometry.location;
+                                        rLAT = location.lat;
+                                        rLNG = location.lng;
+                                    } else {
+                                        result.innerHTML = 'Error: Unable to geocode address';
+                                    }
+                                }
+                            };
+                            xhr.send();
+                        }
+                    </script>
+                </div>
+            </div>
+
+
+            <!--Destination Textbox / Geocoding-->
+            <div class = "form-group">
+                <label for = "to" class = "col-xs-2 control-label"><i class="fa-solid fa-location-dot" style="color: #ea1a1a;"></i></label>
+                <div class = "col-xs-4">
+                    <input type="text" id="Destination" placeholder="Destination" class = "form-control">
+
+                    <div id="result"></div>
+
+                    <script>
+                        //Decalre GLOBAL variables to access in the JavaScript file
+                        var dLAT;
+                        var dLNG;
+
+                        function geocodeAddress() {
+                            var address = document.getElementById('Destination').value;
+
+                            //GET request to the Google Maps Geocoding API + Key
+                            var xhr = new XMLHttpRequest();
+                            xhr.open('GET', 'https://maps.googleapis.com/maps/api/geocode/json?address=' + encodeURIComponent(address) + '&key=AIzaSyDMMd0ZGoHD_ghFi83qyeX23SpqgjKArlo', true);
+
+                            xhr.onreadystatechange = function() {
+                                //4 checks if the request is complete and 200 means the request was successful
+                                if (xhr.readyState === 4 && xhr.status === 200) {
+                                    //Parse the JSON response and extracting the longitude and latitude coordinates
+                                    var response = JSON.parse(xhr.responseText);
+                                    var result = document.getElementById('result');
+                                    if (response.status === 'OK' && response.results.length > 0) {
+                                        var location = response.results[0].geometry.location;
+                                        dLAT = location.lat;
+                                        dLNG = location.lng;
+                                    } else {
+                                        result.innerHTML = 'Error: Unable to geocode address';
+                                    }
+                                }
+                            };
+                            xhr.send();
+                        }
+                    </script>
+                </div>
+            </div>
+
+        </form>
+        <div class = "col-xs-offset-2 col-xs-10">
+            <!--Add function/events to the form CLICK 2 TIMES-->
+            <button class = "btn btn-info btn-lg" onclick = "calcRoute(); geocodeAddress();">
+                <i class="fa-solid fa-diamond-turn-right" ></i></button>
+
+        </div>
+
+    </div>
+
+    <div class = "container-fluid">
+        <!--Place the map-->
+        <div id = "googleMap">
+
+        </div>
+
+        <!--Houses information with origin and destination-->
+        <div id = "output">
+
+        </div>
+
+        <div id = "directions_panel">
+
+        </div>
+    </div>
+
+</div>
+
+<!-- google maps link-->
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDMMd0ZGoHD_ghFi83qyeX23SpqgjKArlo&libraries=places"></script>
+
+<script src = "app.js"></script>
+</body>
+</html>
